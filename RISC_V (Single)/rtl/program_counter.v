@@ -8,6 +8,6 @@ module program_counter(
         pc_out<=pc_in;
     end 
     else begin
-        pc_out<=pc_in + 4;
+        pc_out<=pc_in;
     end  
 endmodule

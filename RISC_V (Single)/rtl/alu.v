@@ -4,6 +4,20 @@ module alu (
 
     output reg [31:0] c
 );
+
+    wire [31:0] adder_sum;
+    wire adder_c_out, adder_flag;
+
+    assign sub_signal = (sel == 3'b110);
+
+    ripple32bit my_adder (
+        .a(a), 
+        .b(b), 
+        .sub(sub_signal), 
+        .s(adder_sum), 
+        .c_out(), .zero_flag(), .overflow()
+    );
+
     always @(*) begin
         case (sel)
             3'b000: begin
@@ -22,10 +36,10 @@ module alu (
                 c = a ^ b;
             end
             3'b101: begin // add
-                c = a + b;
+                c = adder_sum;
             end
             3'b110: begin // sub
-                c = a - b;
+                c = adder_sum;
             end
             default: begin
                 c = 32'b0;

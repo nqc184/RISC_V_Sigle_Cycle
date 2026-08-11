@@ -10,7 +10,7 @@ module datapath(
     wire [31:0] pc_next;
 
     program_counter pc (
-        .clk(clk), .reset(!w_en),
+        .clk(clk), .reset(reset),
         .pc_in(pc_next),
         .pc_out(pc_out)
     );

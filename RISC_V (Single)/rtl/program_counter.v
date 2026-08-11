@@ -5,7 +5,7 @@ module program_counter(
 );
     always@(posedge clk)
     if (reset) begin 
-        pc_out<=32'b0;
+        pc_out<=32'd0;
     end 
     else begin
         pc_out<=pc_in;

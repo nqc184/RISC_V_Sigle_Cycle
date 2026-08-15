@@ -1,14 +1,23 @@
+`timescale 1ns / 1ps
 module top (
     input clk, reset,
+    output [31:0] pc_current_monitor,
     output [31:0] out_result 
 );
     wire [31:0] pc_current, pc_next;
     wire [31:0] instruction;
     wire        reg_write_sig;
-    wire [2:0]  alu_ctrl_sig;
+    wire        alu_src_sig;      
+    wire [3:0]  alu_ctrl_sig;    
     wire [31:0] reg_data1, reg_data2;
+    wire [31:0] imm_value;        
+    wire [31:0] alu_b_in;        
     wire [31:0] alu_result;
+    wire        alu_zero_flag;   
 
+    wire mem_read_sig, mem_write_sig, mem_to_reg_sig, branch_sig, jump_sig;
+
+    assign pc_current_monitor = pc_current;
     ripple32bit pc_adder (
         .a(pc_current), 
         .b(32'd4), 
@@ -31,11 +40,22 @@ module top (
         .readData(instruction)
     );
 
+    imm_gen ImmGen (
+        .instruction(instruction),
+        .imm_out(imm_value)
+    );
+
     control_unit Controller(
         .opcode(instruction[6:0]),        
         .funct3(instruction[14:12]),        
         .funct7_5(instruction[30]),      
-        .reg_write(reg_write_sig),    
+        .reg_write(reg_write_sig),
+        .alu_src(alu_src_sig),
+        .mem_read(mem_read_sig),
+        .mem_write(mem_write_sig),
+        .mem_to_reg(mem_to_reg_sig),
+        .branch(branch_sig),
+        .jump(jump_sig),
         .alu_ctrl(alu_ctrl_sig)
     );
 
@@ -51,11 +71,14 @@ module top (
         .rd2(reg_data2)
     );
 
+    assign alu_b_in = alu_src_sig ? imm_value : reg_data2;
+
     alu ALU(
         .a(reg_data1), 
-        .b(reg_data2),
+        .b(alu_b_in),         
         .sel(alu_ctrl_sig),
-        .c(alu_result)
+        .c(alu_result),
+        .zero_flag(alu_zero_flag)
     );
 
     assign out_result = alu_result;

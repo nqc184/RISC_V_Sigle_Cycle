@@ -282,12 +282,12 @@ Reference Model ─────┘
 | R-type (ADD, SUB, AND, OR, XOR, SLL, SRL, SRA, SLT, SLTU) | ✅ Hoàn thành, ALU đã test |
 | Immediate Generator (I/S/B/U/J) | ✅ Hoàn thành, đã kiểm chứng bằng ví dụ tay |
 | I-type ALU (ADDI...) | ✅ Đã tích hợp vào `top.v`, đang chờ chạy test cuối |
-| I-type Load (LW...) | ✅ Chưa làm — cần thêm `data_memory.v` |
-| S-type (SW...) | ✅ Chưa làm — cần thêm `data_memory.v` |
-| B-type (BEQ, BNE...) | ✅ Chưa làm — cần thêm branch comparator + mux PC |
-| J-type (JAL), JALR | ✅ Chưa làm — cần thêm mux PC + ghi return address |
-| U-type (LUI, AUIPC) | Chưa làm |
-| Pipeline 5 tầng | Chưa bắt đầu — dự kiến sau khi hoàn thiện single-cycle |
+| I-type Load (LW...) | ✅ Đã tích hợp `data_memory.v` vào `top.v`|
+| S-type (SW...) | ✅ Đã tích hợp `data_memory.v` vào `top.v`|
+| B-type (BEQ, BNE...) | 🔲 Chưa làm — cần thêm branch comparator + mux PC |
+| J-type (JAL), JALR | 🔲 Chưa làm — cần thêm mux PC + ghi return address |
+| U-type (LUI, AUIPC) | 🔲 Chưa làm |
+| Pipeline 5 tầng | 🔲 Chưa bắt đầu — dự kiến sau khi hoàn thiện single-cycle |
 
 ---
 

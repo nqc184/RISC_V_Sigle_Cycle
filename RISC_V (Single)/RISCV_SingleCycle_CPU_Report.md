@@ -286,8 +286,8 @@ Reference Model ─────┘
 | S-type (SW...) | ✅ Chưa làm — cần thêm `data_memory.v` |
 | B-type (BEQ, BNE...) | ✅ Chưa làm — cần thêm branch comparator + mux PC |
 | J-type (JAL), JALR | ✅ Chưa làm — cần thêm mux PC + ghi return address |
-| U-type (LUI, AUIPC) | ✅ Chưa làm |
-| Pipeline 5 tầng | ✅ Chưa bắt đầu — dự kiến sau khi hoàn thiện single-cycle |
+| U-type (LUI, AUIPC) | Chưa làm |
+| Pipeline 5 tầng | Chưa bắt đầu — dự kiến sau khi hoàn thiện single-cycle |
 
 ---
 

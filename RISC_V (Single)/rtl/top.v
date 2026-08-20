@@ -13,13 +13,34 @@ module top (
     wire [31:0] imm_value, alu_b_in, alu_result;
     wire        alu_zero_flag;
     wire [31:0] mem_read_data, write_back_data;
+    wire        branch_taken;
+    wire [31:0] pc_plus4, pc_branch_target;
 
     assign pc_current_monitor = pc_current;
 
+    //PC + 4
     ripple32bit pc_adder (
         .a(pc_current), .b(32'd4), .sub(1'b0), 
-        .s(pc_next), .c_out(), .zero_flag(), .overflow()
+        .s(pc_plus4), .c_out(), .zero_flag(), .overflow()
     );
+
+    //PC + imm
+    ripple32bit pc_branch_adder (
+        .a(pc_current), .b(imm_value), .sub(1'b0),
+        .s(pc_branch_target), .c_out(), .zero_flag(), .overflow()
+    );
+
+    assign branch_taken = branch_sig & (
+        (instruction[14:12] == 3'b000) ?  alu_zero_flag :  // BEQ
+        (instruction[14:12] == 3'b001) ? ~alu_zero_flag :  // BNE
+        (instruction[14:12] == 3'b100) ? (alu_result == 32'd1) :  // BLT
+        (instruction[14:12] == 3'b101) ? (alu_result == 32'd0) :  // BGE
+        (instruction[14:12] == 3'b110) ? (alu_result == 32'd1) :  // BLTU
+        (instruction[14:12] == 3'b111) ? (alu_result == 32'd0) :  // BGEU
+        1'b0
+    );
+    //Mux Select PC
+    assign pc_next = branch_taken ? pc_branch_target : pc_plus4;
 
     program_counter PC(
         .clk(clk), .reset(reset), .pc_in(pc_next), .pc_out(pc_current) 

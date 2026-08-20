@@ -18,7 +18,7 @@ module top_tb;
         reset = 1;
         #10
         reset = 0;
-        #60;
+        #80;
         $finish;
     end
 endmodule

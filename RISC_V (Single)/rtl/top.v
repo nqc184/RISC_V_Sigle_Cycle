@@ -1,6 +1,7 @@
 `timescale 1ns / 1ps
 module top (
     input clk, reset,
+    output [31:0] pc_current_monitor,
     output [31:0] out_result 
 );
     wire [31:0] pc_current, pc_next;
@@ -12,6 +13,8 @@ module top (
     wire [31:0] imm_value, alu_b_in, alu_result;
     wire        alu_zero_flag;
     wire [31:0] mem_read_data, write_back_data;
+
+    assign pc_current_monitor = pc_current;
 
     ripple32bit pc_adder (
         .a(pc_current), .b(32'd4), .sub(1'b0), 

@@ -15,6 +15,8 @@ module top (
     wire [31:0] mem_read_data, write_back_data;
     wire        branch_taken;
     wire [31:0] pc_plus4, pc_branch_target;
+    wire [31:0] jump_target;
+    wire        is_jalr;
 
     assign pc_current_monitor = pc_current;
 
@@ -39,8 +41,11 @@ module top (
         (instruction[14:12] == 3'b111) ? (alu_result == 32'd0) :  // BGEU
         1'b0
     );
+
     //Mux Select PC
-    assign pc_next = branch_taken ? pc_branch_target : pc_plus4;
+    assign is_jalr = jump_sig & alu_src_sig;
+    assign jump_target = is_jalr ? alu_result : pc_branch_target;
+    assign pc_next = jump_sig ? jump_target : branch_taken ? pc_branch_target : pc_plus4;
 
     program_counter PC(
         .clk(clk), .reset(reset), .pc_in(pc_next), .pc_out(pc_current) 
@@ -99,7 +104,7 @@ module top (
         .read_data(mem_read_data)
     );
 
-    assign write_back_data = mem_to_reg_sig ? mem_read_data : alu_result;
+    assign write_back_data = jump_sig ? pc_plus4 : mem_to_reg_sig ? mem_read_data : alu_result;
 
     assign out_result = write_back_data;
 

@@ -286,7 +286,7 @@ Reference Model ─────┘
 | S-type (SW...) | ✅ Đã tích hợp `data_memory.v` vào `top.v`|
 | B-type (BEQ, BNE...) | ✅ Đã tích hợp branch comparator và mux PC và file `top.v`|
 | J-type (JAL), JALR | ✅ Đã thêm mux PC + ghi return address |
-| U-type (LUI, AUIPC) | 🔲 Chưa làm |
+| U-type (LUI, AUIPC) | ✅ Đã bổ sung `alu.v`, `controller.v` và `top.v` để thực hiện U-type |
 | Pipeline 5 tầng | 🔲 Chưa bắt đầu — dự kiến sau khi hoàn thiện single-cycle |
 
 ---

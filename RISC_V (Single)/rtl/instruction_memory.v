@@ -5,7 +5,7 @@ module instruction_memory (
     reg [31:0] RAM [0:63];
     
     initial begin
-        $readmemh("instruction_memory_testbench.dat", RAM);
+        $readmemh("instruction_memory_testbench.mem", RAM);
     end
-    assign readData = RAM[pc_in[5:2]];
+    assign readData = RAM[pc_in[7:2]];
 endmodule

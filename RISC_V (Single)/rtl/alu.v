@@ -38,7 +38,8 @@ module alu (
             4'b1000: c = a >> b[4:0];                         
             4'b1001: c = $signed(a) >>> b[4:0];               
             4'b1010: c = (a_signed < b_signed) ? 32'd1 : 32'd0; 
-            4'b1011: c = (a < b) ? 32'd1 : 32'd0;             
+            4'b1011: c = (a < b) ? 32'd1 : 32'd0;
+            4'b1100: c = b;             
             default: c = 32'b0;
         endcase
     end

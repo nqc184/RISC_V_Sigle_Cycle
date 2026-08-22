@@ -102,7 +102,7 @@ module control_unit (
             7'b0110111: begin // U-type (LUI)
                 reg_write = 1'b1;
                 alu_src   = 1'b1;
-                alu_ctrl  = 4'b0000; 
+                alu_ctrl  = 4'b1100; 
             end
 
             7'b0010111: begin // U-type (AUIPC)

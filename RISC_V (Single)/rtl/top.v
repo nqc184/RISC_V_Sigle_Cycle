@@ -16,9 +16,13 @@ module top (
     wire        branch_taken;
     wire [31:0] pc_plus4, pc_branch_target;
     wire [31:0] jump_target;
+    wire [31:0] pc_plus_imm;
     wire        is_jalr;
+    wire        is_auipc;
 
     assign pc_current_monitor = pc_current;
+    assign pc_plus_imm = pc_current + imm_value;
+    assign is_auipc    = (instruction[6:0] == 7'b0010111);
 
     //PC + 4
     ripple32bit pc_adder (
@@ -104,7 +108,7 @@ module top (
         .read_data(mem_read_data)
     );
 
-    assign write_back_data = jump_sig ? pc_plus4 : mem_to_reg_sig ? mem_read_data : alu_result;
+    assign write_back_data = is_auipc ? pc_plus_imm : jump_sig ? pc_plus4 : mem_to_reg_sig ? mem_read_data : alu_result;
 
     assign out_result = write_back_data;
 
